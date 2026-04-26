@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Products</h1>
+    
+  <form method="GET">
+    <input type="text" name="search" placeholder="Search products" value="{{ request.GET.search }}">
+    <input type="text" name="category" placeholder="Category" value="{{ request.GET.category }}">
+    <input type="number" name="min_price" placeholder="Min price" value="{{ request.GET.min_price }}">
+    <input type="number" name="max_price" placeholder="Max price" value="{{ request.GET.max_price }}">
+    <label>
+        <input type="checkbox" name="available" {% if request.GET.available %}checked{% endif %}>
+        Available only
+    </label>
+    <button type="submit">Search</button>
+    <a href="{% url 'product_list' %}">Clear filters</a>
+    </form>
+    
+    <form method="GET" style="display: inline;">
+    <!-- Keep existing filters as hidden inputs -->
+    {% if request.GET.search %}
+        <input type="hidden" name="search" value="{{ request.GET.search }}">
+    {% endif %}
+    
+    <select name="sort">
+        <option value="created_at">Date Added</option>
+        <option value="title">Name</option>
+        <option value="price">Price</option>
+    </select>
+    
+    <select name="order">
+        <option value="asc">Ascending</option>
+        <option value="desc">Descending</option>
+    </select>
+    
+    <button type="submit">Sort</button>
+  </form>
+
+    {% for product in products %}
+    <div>
+        <<h3><a href="{% url 'product_detail_slug' product.slug %}">{{ product.title }}</a></h3>
+       
+        <p>Price: ${{ product.price }}</p>
+        <p>Category : {{ product.category.name }}</p>
+    </div>
+    {% endfor %}
+
+    
+    
+</body>
+</html>

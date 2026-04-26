@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<body>
+    <h1>{{ product.title }}</h1>
+    <p><strong>Price:</strong> ${{ product.price }}</p>
+    <p><strong>Category:</strong> {{ product.category.name }}</p>
+    <p><strong>Description:</strong> {{ product.description }}</p>
+    <p><strong>Inventory:</strong> {{ product.inventory }}</p>
+    <p><strong>Available:</strong> {{ product.is_available }}</p>
+    
+    <h3>Tags:</h3>
+    <ul>
+        {% for tag in product.tags.all %}
+            <li>{{ tag.name }}</li>
+        {% empty %}
+            <li>No tags</li>
+        {% endfor %}
+    </ul>
+    
+    <a href="{% url 'product_list' %}">Back to all products</a>
+</body>
+</html>
