@@ -14,7 +14,7 @@ class Category(models.Model):
 
     def __str__(self):
         return self.name
-    
+
 # Create your models here.
 class Product(models.Model):
     
@@ -55,4 +55,12 @@ class Product(models.Model):
     # we use migrartions in django to make relations to the dtatabse 
     #django doesnt even touch databas3e until you use migration
 
+class Review(models.Model):
+    product = models.ForeignKey(Product ,on_delete=models.CASCADE ,related_name = 'reviews')
+    name = models.CharField(max_length=100)
+    rating  = models.IntegerField(choices = [(1,'1 Star'), (2, ' 2 Stars') , (3 , '3 Stars') , (4 , '4 Stars') , (5 , '5 Stars')])
+    comment  = models.TextField()
+    created_at = models.DateTimeField(auto_now_add = True)
 
+    def __str__(self):
+        return f"{self.name} - {self.rating} staers"

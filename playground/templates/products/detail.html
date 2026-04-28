@@ -8,7 +8,21 @@
     <p><strong>Inventory:</strong> {{ product.inventory }}</p>
     <p><strong>Available:</strong> {{ product.is_available }}</p>
     
+    <!-- Add this to detail.html -->
+   <h2>Reviews</h2>
+    {% for review in product.reviews.all %}
+    <div>
+        <strong>{{ review.name }}</strong> - {{ review.rating }} stars
+        <p>{{ review.comment }}</p>
+        <small>{{ review.created_at|date:"M d, Y" }}</small>
+    </div>
+    {% empty %}
+    <p>No reviews yet.</p>
+    {% endfor %}
+    <a href="{% url 'add_review' product.slug %}">Write a Review</a>
+    
     <h3>Tags:</h3>
+
     <ul>
         {% for tag in product.tags.all %}
             <li>{{ tag.name }}</li>

@@ -1,8 +1,8 @@
 from django.shortcuts import render , get_object_or_404
 from django.http import HttpResponse
-from .models import Product
+from .models import Product , Review
 from django.shortcuts import redirect 
-from .forms import ContactForm
+from .forms import ContactForm , ReviewForm 
 
 
 def product_detail_id_redirect(request , id):
@@ -99,3 +99,21 @@ def contact_view(request):
         return render(request, 'contact_success.html')
     
     return render(request, 'contact.html', {'form': form})
+
+def add_review(request, slug):
+    product = get_object_or_404(Product, slug=slug)
+
+    if request.method == 'POST':
+        form = ReviewForm(request.POST)
+        if form.is_valid():
+            review = form.save(commit=False)
+            review.product = product
+            review.save()
+            return redirect('product_detail_slug', slug=slug)
+    else:
+        form = ReviewForm()
+
+    return render(request, 'products/add_review.html', {
+        'form': form,
+        'product': product
+    })

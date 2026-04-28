@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html>
+<body>
+    <h1>Review: {{ product.title }}</h1>
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Submit Review</button>
+    </form>
+    <a href="{% url 'product_detail_slug' product.slug %}">Cancel</a>
+</body>
+</html>
