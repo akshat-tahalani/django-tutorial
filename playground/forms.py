@@ -1,5 +1,5 @@
 from django import forms
-from .models import Review
+from .models import Review , Product
 
 class ContactForm(forms.Form):
     name = forms.CharField(max_length = 100)
@@ -21,9 +21,31 @@ class ContactForm(forms.Form):
         return message
 
 
-
 class ReviewForm(forms.ModelForm):
     class Meta:
         model = Review
         fields = ['name', 'rating', 'comment']
-    
+        widgets = {
+            'name': forms.TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Your name'
+            }),
+            'rating': forms.Select(attrs={
+                'class': 'form-control'
+            }),
+            'comment': forms.Textarea(attrs={
+                'class': 'form-control',
+                'rows': 5,
+                'placeholder': 'Write your review here...'
+            })
+        }
+        labels = {
+            'name': 'Your Name',
+            'rating': 'Rating (1-5)',
+            'comment': 'Your Review'
+        }
+
+class ProductForm(forms.ModelForm):
+    class Meta:
+        model = Product
+        fields = ['title', 'category', 'price', 'description', 'inventory', 'image', 'tags']

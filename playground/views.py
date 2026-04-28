@@ -2,7 +2,7 @@ from django.shortcuts import render , get_object_or_404
 from django.http import HttpResponse
 from .models import Product , Review
 from django.shortcuts import redirect 
-from .forms import ContactForm , ReviewForm 
+from .forms import ContactForm , ReviewForm  , ProductForm
 
 
 def product_detail_id_redirect(request , id):
@@ -117,3 +117,34 @@ def add_review(request, slug):
         'form': form,
         'product': product
     })
+
+
+def edit_review(request ,review_id):
+    review = get_object_or_404(Review , id =review_id)
+
+    if request.method == 'POST':
+        form = ReviewForm(request.POST ,instance=review)
+
+        if form.is_valid():
+            form.save()
+            return redirect('product_detail_slug' , slug=review.product.slug)
+    else:
+        form = ReviewForm(instance  = review)
+    
+     
+    return render(request, 'products/edit_review.html', {
+        'form': form,
+        'review': review
+    })
+
+
+def create_product(request):
+    if request.method == 'POST':
+        form = ProductForm(request.POST, request.FILES)
+        if form.is_valid():
+            product = form.save()
+            return redirect('product_detail_slug', slug=product.slug)
+    else:
+        form = ProductForm()
+    
+    return render(request, 'products/create_product.html', {'form': form})

@@ -11,16 +11,29 @@
     <!-- Add this to detail.html -->
    <h2>Reviews</h2>
     {% for review in product.reviews.all %}
+    
+    
+        
+   
     <div>
-        <strong>{{ review.name }}</strong> - {{ review.rating }} stars
-        <p>{{ review.comment }}</p>
-        <small>{{ review.created_at|date:"M d, Y" }}</small>
-    </div>
+
     {% empty %}
     <p>No reviews yet.</p>
     {% endfor %}
     <a href="{% url 'add_review' product.slug %}">Write a Review</a>
+
+    </div>
     
+    
+    {% for review in product.reviews.all %}
+    <div>
+        <strong>{{ review.name }}</strong> - {{ review.rating }} stars
+        <p>{{ review.comment }}</p>
+        <small>{{ review.created_at|date:"M d, Y" }}</small>
+        <a href="{% url 'edit_review' review.id %}">Edit</a>
+    </div>
+    {% endfor %}
+
     <h3>Tags:</h3>
 
     <ul>
